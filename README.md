@@ -124,14 +124,6 @@ These sources emphasize DNA’s:
 
 Shaurya Mehta
 
-Vaishnavi Gupta
-
-
-
-## 👤 Author
-
-Shaurya Mehta and Diantha Kanchan
-
 
 
 
