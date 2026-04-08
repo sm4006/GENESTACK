@@ -118,11 +118,7 @@ These sources emphasize DNA’s:
   SAP ID: 70412500071  
   MBA Tech IT A2  
 
----
 
-## 👤 Author
-
-Shaurya Mehta
 
 
 
