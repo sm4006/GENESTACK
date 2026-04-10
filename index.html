@@ -27,7 +27,8 @@
         <p>Convert digital files into DNA sequences</p>
     </div>
 
-    <div class="upload-zone" onclick="startEncoding()">
+    <div class="upload-zone" onclick="document.getElementById('encodeInput').click()">
+        <input type="file" id="encodeInput" hidden onchange="startEncoding(this.files[0])">
         <div class="upload-icon">📁</div>
         <div class="upload-text">
             <h3>Drop your file here</h3>
@@ -42,7 +43,8 @@
         <p>Convert DNA sequences back into files</p>
     </div>
 
-    <div class="upload-zone" onclick="startDecoding()">
+    <div class="upload-zone" onclick="document.getElementById('decodeInput').click()">
+        <input type="file" id="decodeInput" hidden onchange="startDecoding(this.files[0])">
         <div class="upload-icon">🧬</div>
         <div class="upload-text">
             <h3>Drop your .dna file here</h3>
