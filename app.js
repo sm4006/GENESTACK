@@ -1,90 +1,76 @@
-const DNA_MAPPING={ '00':'A','01':'T','10':'G','11':'C' };
-const REVERSE_DNA_MAPPING={ 'A':'00','T':'01','G':'10','C':'11' };
+const DNA_MAPPING = { '00':'A','01':'T','10':'G','11':'C' };
+const REVERSE_DNA_MAPPING = { 'A':'00','T':'01','G':'10','C':'11' };
+let currentEncodedFile = null;
 
-function handleEncodeFile(file){
- const reader=new FileReader();
- reader.onload=e=>{
-  const data=new Uint8Array(e.target.result);
-  let dnaSequence='';
-  for(let i=0;i<data.length;i++){
-   let byte=data[i];
-   for(let j=0;j<4;j++){
-    const bits=((byte>>(6-j*2))&3).toString(2).padStart(2,'0');
-    dnaSequence+=DNA_MAPPING[bits];
-   }
+window.addEventListener('DOMContentLoaded', () => {
+  const uploadZone = document.getElementById('uploadZone');
+  const fileInput = document.getElementById('fileInput');
+  if (uploadZone && fileInput) {
+    uploadZone.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (file) handleEncodeFile(file);
+    });
   }
-  currentEncodedFile={data:dnaSequence,filename:file.name+'.dna'};
-  simulateEncodingUI(dnaSequence);
+});
+
+async function handleEncodeFile(file) {
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const bytes = new Uint8Array(e.target.result);
+    let dnaSequence = '';
+
+    for (let byte of bytes) {
+      for (let bit = 6; bit >= 0; bit -= 2) {
+        const bits = ((byte >> bit) & 0b11).toString(2).padStart(2, '0');
+        dnaSequence += DNA_MAPPING[bits];
+      }
+    }
+
+    currentEncodedFile = {
+      filename: file.name.replace(/\.[^/.]+$/, '') + '.dna',
+      data: dnaSequence
+    };
+
+    await simulateEncodingUI(dnaSequence);
+    downloadEncoded();
+    closeProcessModal();
+  };
+
   reader.readAsArrayBuffer(file);
- };
- reader.readAsArrayBuffer(file);
 }
 
-function handleDecodeFile(file){
- const reader=new FileReader();
- reader.onload=e=>{
-  const dna=e.target.result.trim();
-  let bytes=[];
-  for(let i=0;i<dna.length;i+=4){
-   let byte=0;
-   for(let j=0;j<4;j++){
-    const bits=REVERSE_DNA_MAPPING[dna[i+j]];
-    byte=(byte<<2)|parseInt(bits,2);
-   }
-   bytes.push(byte);
+function showProcessModal() {
+  document.getElementById('processModal').classList.add('active');
+}
+
+function closeProcessModal() {
+  document.getElementById('processModal').classList.remove('active');
+}
+
+async function simulateEncodingUI(dnaSequence) {
+  showProcessModal();
+  const start = Date.now();
+
+  for (let i = 0; i <= 100; i += 10) {
+    document.getElementById('progressFill').style.width = i + '%';
+    document.getElementById('progressPercent').textContent = i + '%';
+    document.getElementById('basesCount').textContent = Math.floor(dnaSequence.length * i / 100);
+    document.getElementById('dnaPreview').textContent = dnaSequence.slice(0, Math.max(20, dnaSequence.length * i / 100)).slice(0, 300);
+    document.getElementById('processTime').textContent = ((Date.now() - start) / 1000).toFixed(1) + 's';
+
+    if (i < 40) document.getElementById('stage1').style.opacity = '1';
+    else if (i < 80) document.getElementById('stage2').style.opacity = '1';
+    else document.getElementById('stage3').style.opacity = '1';
+
+    await new Promise(r => setTimeout(r, 180));
   }
-  currentDecodedFile=new Uint8Array(bytes);
-  downloadDecoded(file.name.replace('.dna','_decoded'));
- };
- reader.readAsText(file);
 }
 
-function showProcessModal(){ document.getElementById('processModal').classList.add('active'); }
-function closeProcessModal(){ document.getElementById('processModal').classList.remove('active'); }
-
-async function simulateEncodingUI(dnaSequence){
- showProcessModal();
- const start=Date.now();
- const fill=document.getElementById('progressFill');
- const percent=document.getElementById('progressPercent');
- const preview=document.getElementById('dnaPreview');
- const count=document.getElementById('basesCount');
- const time=document.getElementById('processTime');
- const stages=['stage1','stage2','stage3'];
-
- for(let i=0;i<=100;i+=10){
-  fill.style.width=i+'%';
-  percent.textContent=i+'%';
-  count.textContent=Math.floor((dnaSequence.length*i)/100);
-  preview.textContent=dnaSequence.slice(0,Math.max(20,Math.floor((dnaSequence.length*i)/100))).slice(0,400);
-  time.textContent=((Date.now()-start)/1000).toFixed(1)+'s';
-
-  if(i<40) document.getElementById(stages[0]).classList.add('active');
-  else if(i<80){
-   document.getElementById(stages[0]).classList.remove('active');
-   document.getElementById(stages[0]).classList.add('completed');
-   document.getElementById(stages[1]).classList.add('active');
-  } else {
-   document.getElementById(stages[1]).classList.remove('active');
-   document.getElementById(stages[1]).classList.add('completed');
-   document.getElementById(stages[2]).classList.add('active');
-  }
-  await new Promise(r=>setTimeout(r,180));
- }
-}
-
-function downloadEncoded(){
- const blob=new Blob([currentEncodedFile.data],{type:'text/plain'});
- const a=document.createElement('a');
- a.href=URL.createObjectURL(blob);
- a.download=currentEncodedFile.filename;
- a.click();
-}
-
-function downloadDecoded(filename){
- const blob=new Blob([currentDecodedFile]);
- const a=document.createElement('a');
- a.href=URL.createObjectURL(blob);
- a.download=filename;
- a.click();
+function downloadEncoded() {
+  const blob = new Blob([currentEncodedFile.data], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = currentEncodedFile.filename;
+  a.click();
 }

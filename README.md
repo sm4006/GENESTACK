@@ -116,10 +116,4 @@ These sources emphasize DNA’s:
 
 - Yoma Shah  
   SAP ID: 70412500071  
-  MBA Tech IT A2  
-
-
-
-
-
-
+  MBA Tech IT A2
