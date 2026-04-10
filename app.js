@@ -1,4 +1,12 @@
-function animateSection(sectionId, title, fileName, stepsText) {
+function downloadFile(filename, content) {
+  const blob = new Blob([content], { type: "text/plain" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  link.click();
+}
+
+function animateSection(sectionId, title, fileName, stepsText, finalCallback) {
   const section = document.getElementById(sectionId);
 
   section.innerHTML = `
@@ -8,7 +16,9 @@ function animateSection(sectionId, title, fileName, stepsText) {
     </div>
 
     <div class="animation-box">
-      ${stepsText.map((s, i) => `<div class="step ${i === 0 ? "active" : ""}">${s}</div>`).join("")}
+      ${stepsText.map((s, i) =>
+        `<div class="step ${i === 0 ? "active" : ""}">${s}</div>`
+      ).join("")}
     </div>
 
     <div class="progress-bar">
@@ -34,28 +44,47 @@ function animateSection(sectionId, title, fileName, stepsText) {
       current++;
     } else {
       clearInterval(interval);
+      if (finalCallback) finalCallback();
     }
   }, 1200);
 }
 
 function startEncoding(file) {
   if (!file) return;
-  animateSection("encode", "📁 Encoding in Progress", file.name, [
-    "📂 Reading file...",
-    "🔢 Converting to binary...",
-    "🧬 Binary → ATGC",
-    "🛡️ Reed Solomon protection",
-    "✅ DNA sequence ready"
-  ]);
+
+  animateSection(
+    "encode",
+    "📁 Encoding in Progress",
+    file.name,
+    [
+      "📂 Reading file...",
+      "🔢 Converting to binary...",
+      "🧬 Binary → ATGC",
+      "🛡️ Reed Solomon protection",
+      "✅ DNA sequence ready"
+    ],
+    () => {
+      downloadFile(file.name + ".dna", "ATGCGTAGCTAGCTAGCTAGCTAGCTA");
+    }
+  );
 }
 
 function startDecoding(file) {
   if (!file) return;
-  animateSection("decode", "🧬 Decoding in Progress", file.name, [
-    "🧬 Reading DNA",
-    "🔁 ATGC → Binary",
-    "🛡️ Error correction",
-    "📄 Rebuilding original file",
-    "✅ Decode complete"
-  ]);
+
+  animateSection(
+    "decode",
+    "🧬 Decoding in Progress",
+    file.name,
+    [
+      "🧬 Reading DNA",
+      "🔁 ATGC → Binary",
+      "🛡️ Error correction",
+      "📄 Rebuilding original file",
+      "✅ Decode complete"
+    ],
+    () => {
+      downloadFile("decoded_" + file.name.replace(".dna", ".txt"), "Decoded original file content");
+    }
+  );
 }
