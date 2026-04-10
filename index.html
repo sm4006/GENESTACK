@@ -1,112 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeneStack - DNA Data Storage Platform</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GeneStack - DNA Data Storage Platform</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-<header>
-    <nav>
-        <a href="#" class="logo">🧬 GeneStack</a>
-        <ul class="nav-links">
-            <li><a href="#encode">Encode</a></li>
-            <li><a href="#decode">Decode</a></li>
-            <li><a href="#analytics">Analytics</a></li>
-            <li><a href="#docs">Docs</a></li>
-            <li><a href="#team">Team</a></li>
-        </ul>
-    </nav>
-</header>
+  <nav class="navbar">
+    <div class="logo">🧬 GeneStack</div>
+    <div class="nav-links">
+      <a href="#encode">Encode</a>
+      <a href="#decode">Decode</a>
+      <a href="#analytics">Analytics</a>
+      <a href="#docs">Docs</a>
+      <a href="#team">Team</a>
+    </div>
+  </nav>
 
-<section id="encode" class="section-container">
+  <!-- ENCODE -->
+  <section id="encode" class="section-container">
     <div class="section-header">
-        <h1>📁 Encode Files</h1>
-        <p>Convert digital files into DNA sequences</p>
+      <h1>📁 Encode Files</h1>
+      <p>Convert digital files into DNA sequences</p>
     </div>
 
-    <div class="upload-zone" onclick="document.getElementById('encodeInput').click()">
-        <input type="file" id="encodeInput" hidden onchange="startEncoding(this.files[0])">
-        <div class="upload-icon">📁</div>
-        <div class="upload-text">
-            <h3>Drop your file here</h3>
-            <p>Documents, images, videos up to 100MB</p>
-        </div>
+    <div class="upload-zone" onclick="document.getElementById('encodeFile').click()">
+      <input
+        type="file"
+        id="encodeFile"
+        hidden
+        onchange="startEncoding(this.files[0])"
+      />
+      <div class="upload-icon">📁</div>
+      <div class="upload-text">
+        <h3>Drop your file here</h3>
+        <p>Documents, images, videos up to 100MB</p>
+      </div>
     </div>
-</section>
+  </section>
 
-<section id="decode" class="section-container">
+  <!-- DECODE -->
+  <section id="decode" class="section-container">
     <div class="section-header">
-        <h1>🧬 Decode DNA</h1>
-        <p>Convert DNA sequences back into files</p>
+      <h1>🧬 Decode DNA</h1>
+      <p>Convert DNA sequences back into files</p>
     </div>
 
-    <div class="upload-zone" onclick="document.getElementById('decodeInput').click()">
-        <input type="file" id="decodeInput" hidden onchange="startDecoding(this.files[0])">
-        <div class="upload-icon">🧬</div>
-        <div class="upload-text">
-            <h3>Drop your .dna file here</h3>
-            <p>Supports lossless decoding</p>
-        </div>
+    <div class="upload-zone" onclick="document.getElementById('decodeFile').click()">
+      <input
+        type="file"
+        id="decodeFile"
+        hidden
+        onchange="startDecoding(this.files[0])"
+      />
+      <div class="upload-icon">🧬</div>
+      <div class="upload-text">
+        <h3>Select DNA file</h3>
+        <p>.dna sequence files</p>
+      </div>
     </div>
-</section>
+  </section>
 
-<section id="analytics" class="section-container">
+  <!-- ANALYTICS -->
+  <section id="analytics" class="section-container">
     <div class="section-header">
-        <h1>📊 Analytics</h1>
-        <p>DNA storage comparison insights</p>
+      <h1>📊 Analytics</h1>
+      <p>DNA storage comparison insights</p>
     </div>
 
-    <img src="comparison table.jpeg" alt="Comparison Table"
-         style="width:100%; border-radius:20px; margin-top:20px;">
-</section>
+    <img
+      src="comparison table.jpeg"
+      alt="Comparison Table"
+      style="width:100%; border-radius:20px; margin-top:20px;"
+    />
+  </section>
 
-<section id="docs" class="section-container">
+  <!-- DOCS -->
+  <section id="docs" class="section-container">
     <div class="section-header">
-        <h1>📚 Documentation & PPT</h1>
-        <p>Research references and presentation</p>
+      <h1>📑 Documentation & PPT</h1>
+      <p>Research references and presentation</p>
     </div>
 
-    <div style="position: relative; width: 100%; height: 0; padding-top: 56.25%;
-     box-shadow: 0 2px 8px rgba(63,69,81,0.16); margin-top: 20px;
-     overflow: hidden; border-radius: 12px;">
-      <iframe loading="lazy"
-        style="position:absolute; width:100%; height:100%; top:0; left:0; border:none;"
+    <div style="position:relative;width:100%;height:0;padding-top:56.25%;margin-top:20px;">
+      <iframe
+        loading="lazy"
+        style="position:absolute;width:100%;height:100%;top:0;left:0;border:none;border-radius:12px;"
         src="https://www.canva.com/design/DAHFxIXGbek/Jgr5bD2jAkMpEPfL8cZ7gA/view?embed"
         allowfullscreen>
       </iframe>
     </div>
-</section>
+  </section>
 
-<section id="team" class="section-container">
+  <!-- TEAM -->
+  <section id="team" class="section-container">
     <div class="section-header">
-        <h1>👥 Project Team</h1>
-        <p>DNA Data Storage Research Project</p>
+      <h1>👥 Project Team</h1>
+      <p>DNA Data Storage Research Project</p>
     </div>
 
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:30px;">
-        <div style="background:#243b5a;padding:30px;border-radius:20px;text-align:center;">
-            <h2>Akshara Andhale</h2>
-            <p>SAP ID: 70412500096</p>
-            <p>Branch: MBA Tech IT A2</p>
-        </div>
-
-        <div style="background:#243b5a;padding:30px;border-radius:20px;text-align:center;">
-            <h2>Darika Vajpayee</h2>
-            <p>SAP ID: 70412500036</p>
-            <p>Branch: MBA Tech IT A2</p>
-        </div>
-
-        <div style="background:#243b5a;padding:30px;border-radius:20px;text-align:center;">
-            <h2>Yoma Shah</h2>
-            <p>SAP ID: 70412500071</p>
-            <p>Branch: MBA Tech IT A2</p>
-        </div>
+      <div class="team-card">
+        <h2>Akshara Andhale</h2>
+        <p>SAP ID: 70412500096</p>
+        <p>Branch: MBA Tech IT A2</p>
+      </div>
+      <div class="team-card">
+        <h2>Darika Vajpayee</h2>
+        <p>SAP ID: 70412500036</p>
+        <p>Branch: MBA Tech IT A2</p>
+      </div>
+      <div class="team-card">
+        <h2>Yoma Shah</h2>
+        <p>SAP ID: 70412500071</p>
+        <p>Branch: MBA Tech IT A2</p>
+      </div>
     </div>
-</section>
+  </section>
 
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
